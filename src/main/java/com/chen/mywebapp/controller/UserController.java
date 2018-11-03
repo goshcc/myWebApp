@@ -3,6 +3,8 @@ package com.chen.mywebapp.controller;
 import com.chen.mywebapp.domain.Result;
 import com.chen.mywebapp.domain.User;
 import com.chen.mywebapp.service.UserService;
+import com.chen.mywebapp.utils.JsonUtils;
+import com.chen.mywebapp.utils.RedisOperator;
 import com.chen.mywebapp.utils.ResultUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RedisOperator redis;
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping("/user/save")
@@ -28,5 +32,18 @@ public class UserController {
         logger.info("get all users");
 
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/getUserFromRedis")
+    public Result<User> getUserFromRedis() {
+        User user = new User();
+        user.setAge(18);
+        user.setName("redis user");
+        user.setPassword("123456");
+        redis.set("redisUser", JsonUtils.objectToJson(user), 2000);
+        String userFromRedis = redis.get("redisUser");
+        User userBorn = JsonUtils.jsonToPojo(userFromRedis, User.class);
+
+        return ResultUtils.success(userBorn);
     }
 }
