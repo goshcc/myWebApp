@@ -2,7 +2,7 @@
 <configuration scan="true" debug="false">
     <appender name="base_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>C:/Users/10241975/Desktop/zenic-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>C:/Users/10241975/Desktop/mywebapp-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <maxFileSize>10MB</maxFileSize>
         </rollingPolicy>
